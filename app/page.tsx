@@ -395,7 +395,7 @@ export default function Home() {
 
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {services.map((service) => {
-                const IconComponent = (serviceIcons as any)[service.id];
+               const IconComponent = serviceIcons[service.id as ServiceId];
                 return (
                   <div
                     key={service.id}
