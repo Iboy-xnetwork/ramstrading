@@ -4,6 +4,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+type ServiceId = "logistics" | "cleaning" | "forex" | "brands" | "websites";
 
 // ─── Icons (real SVGs) ──────────────────────────────────────────────────
 const TruckIcon = () => (
@@ -135,7 +136,7 @@ const ServiceWebImage = () => (
 );
 
 // Map icons to services
-const serviceIcons = {
+const serviceIcons: Record<ServiceId, () => JSX.Element> = {
   logistics: ServiceTruckImage,
   cleaning: ServiceCleanImage,
   forex: ServiceForexImage,
@@ -144,9 +145,9 @@ const serviceIcons = {
 };
 
 // ─── Data ───────────────────────────────────────────────────────────────
-const services = [
+const services: { id: ServiceId; title: string; description: string; link: string }[] = [
   {
-    id: "logistics",
+    id: "logistics",,
     title: "Logistics & Transportation",
     description: "Comprehensive vehicle & trailer rental, professional driver hiring, and complete end-to-end transportation solutions tailored to your needs.",
     link: "/services/logistics",
