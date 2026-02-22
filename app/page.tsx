@@ -136,13 +136,13 @@ const ServiceWebImage = () => (
 );
 
 // Map icons to services
-const serviceIcons: Record<ServiceId, () => JSX.Element> = {
+const serviceIcons = {
   logistics: ServiceTruckImage,
   cleaning: ServiceCleanImage,
   forex: ServiceForexImage,
   brands: ServiceBrandImage,
   websites: ServiceWebImage,
-};
+} satisfies Record<ServiceId, () => JSX.Element>;
 
 // ─── Data ───────────────────────────────────────────────────────────────
 const services: { id: ServiceId; title: string; description: string; link: string }[] = [
