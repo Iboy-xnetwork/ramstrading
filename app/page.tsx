@@ -4,7 +4,12 @@
 import { JSX, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-type ServiceId = "logistics" | "cleaning" | "forex" | "brands" | "websites";
+type ServiceId =
+  | "logistics"
+  | "cleaning"
+  | "forex"
+  | "brands"
+  | "websites";
 
 // ─── Icons (real SVGs) ──────────────────────────────────────────────────
 const TruckIcon = () => (
@@ -79,7 +84,7 @@ const FacebookIcon = () => (
   </svg>
 );
 
-// ─── Service Icons with Unsplash images (only hero changed) ──────────────
+// ─── Service Icons with Unsplash images ──────────────────────────────────
 const ServiceTruckImage = () => (
   <div className="w-24 h-24 relative rounded-2xl overflow-hidden shadow-lg">
     <Image
@@ -136,16 +141,16 @@ const ServiceWebImage = () => (
 );
 
 // Map icons to services
-const serviceIcons = {
+const serviceIcons: { [key in ServiceId]: () => JSX.Element } = {
   logistics: ServiceTruckImage,
   cleaning: ServiceCleanImage,
   forex: ServiceForexImage,
   brands: ServiceBrandImage,
   websites: ServiceWebImage,
-} satisfies Record<ServiceId, () => JSX.Element>;
+};
 
 // ─── Data ───────────────────────────────────────────────────────────────
-const services: { id: ServiceId; title: string; description: string; link: string }[] = [
+const services: Array<{ id: ServiceId; title: string; description: string; link: string }> = [
   {
     id: "logistics",
     title: "Logistics & Transportation",
@@ -197,76 +202,75 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-white antialiased">
       {/* ─── Navigation ────────────────────────────────────────────────── */}
-      {/* ─── Navigation (upgraded for hero image match) ──────────────────────────────── */}
-<nav className="fixed top-0 inset-x-0 z-50 bg-slate-950/70 backdrop-blur-xl border-b border-slate-700/50 shadow-lg transition-all duration-300">
-  <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-10">
-    <div className="flex items-center justify-between h-16 lg:h-20">
-      {/* Logo with subtle glow */}
-      <div className="flex-shrink-0">
-        <span className="text-3xl lg:text-4xl font-extrabold text-white tracking-tight drop-shadow-[0_0_12px_rgba(245,158,11,0.5)]">
-          Rams<span className="text-amber-500">Trading</span>
-        </span>
-      </div>
+      <nav className="fixed top-0 inset-x-0 z-50 bg-slate-950/70 backdrop-blur-xl border-b border-slate-700/50 shadow-lg transition-all duration-300">
+        <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-10">
+          <div className="flex items-center justify-between h-16 lg:h-20">
+            {/* Logo */}
+            <div className="flex-shrink-0">
+              <span className="text-3xl lg:text-4xl font-extrabold text-white tracking-tight drop-shadow-[0_0_12px_rgba(245,158,11,0.5)]">
+                Rams<span className="text-amber-500">Trading</span>
+              </span>
+            </div>
 
-      {/* Desktop Nav - more premium hover effects */}
-      <div className="hidden md:flex items-center space-x-10">
-        {["Home", "About", "Services", "Why Us", "Contact"].map((item) => (
-          <button
-            key={item}
-            onClick={() => scrollToSection(item === "Home" ? "hero" : item.toLowerCase().replace(" ", "-"))}
-            className={`text-base font-medium transition-all duration-300 hover:scale-105 hover:text-amber-400 ${
-              item === "Contact"
-                ? "bg-amber-500 hover:bg-amber-600 text-slate-950 px-7 py-3 rounded-xl shadow-lg hover:shadow-amber-500/40 hover:-translate-y-0.5"
-                : "text-slate-200 hover:text-amber-400"
-            }`}
-          >
-            {item}
-          </button>
-        ))}
-      </div>
+            {/* Desktop Nav */}
+            <div className="hidden md:flex items-center space-x-10">
+              {["Home", "About", "Services", "Why Us", "Contact"].map((item) => (
+                <button
+                  key={item}
+                  onClick={() => scrollToSection(item === "Home" ? "hero" : item.toLowerCase().replace(" ", "-"))}
+                  className={`text-base font-medium transition-all duration-300 hover:scale-105 hover:text-amber-400 ${
+                    item === "Contact"
+                      ? "bg-amber-500 hover:bg-amber-600 text-slate-950 px-7 py-3 rounded-xl shadow-lg hover:shadow-amber-500/40 hover:-translate-y-0.5"
+                      : "text-slate-200 hover:text-amber-400"
+                  }`}
+                >
+                  {item}
+                </button>
+              ))}
+            </div>
 
-      {/* Mobile burger - nicer styling */}
-      <button
-        className="md:hidden text-amber-400 p-3 rounded-xl hover:bg-slate-800/60 transition-all"
-        onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-        aria-label="Toggle menu"
-      >
-        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-          {mobileMenuOpen ? (
-            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-          ) : (
-            <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-          )}
-        </svg>
-      </button>
-    </div>
-  </div>
+            {/* Mobile burger */}
+            <button
+              className="md:hidden text-amber-400 p-3 rounded-xl hover:bg-slate-800/60 transition-all"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              aria-label="Toggle menu"
+            >
+              <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                {mobileMenuOpen ? (
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                ) : (
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+                )}
+              </svg>
+            </button>
+          </div>
+        </div>
 
-  {/* Mobile menu - glass effect */}
-  {mobileMenuOpen && (
-    <div className="md:hidden bg-slate-950/90 backdrop-blur-xl border-t border-slate-700/50">
-      <div className="px-6 py-8 space-y-5">
-        {["Home", "About", "Services", "Why Us", "Contact"].map((item) => (
-          <button
-            key={item}
-            onClick={() => scrollToSection(item === "Home" ? "hero" : item.toLowerCase().replace(" ", "-"))}
-            className="block w-full text-left text-xl font-medium text-slate-200 hover:text-amber-400 py-4 px-6 rounded-xl hover:bg-slate-800/50 transition-all"
-          >
-            {item}
-          </button>
-        ))}
-      </div>
-    </div>
-  )}
-</nav>
+        {/* Mobile menu */}
+        {mobileMenuOpen && (
+          <div className="md:hidden bg-slate-950/90 backdrop-blur-xl border-t border-slate-700/50">
+            <div className="px-6 py-8 space-y-5">
+              {["Home", "About", "Services", "Why Us", "Contact"].map((item) => (
+                <button
+                  key={item}
+                  onClick={() => scrollToSection(item === "Home" ? "hero" : item.toLowerCase().replace(" ", "-"))}
+                  className="block w-full text-left text-xl font-medium text-slate-200 hover:text-amber-400 py-4 px-6 rounded-xl hover:bg-slate-800/50 transition-all"
+                >
+                  {item}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+      </nav>
 
       <div className="pt-16 lg:pt-20">
 
-        {/* ─── HERO with NEW background image (only this changed) ────────── */}
+        {/* ─── HERO ────────── */}
         <section id="hero" className="relative min-h-screen flex items-center bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 overflow-hidden">
           <div className="absolute inset-0">
             <Image
-              src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?w=1920&auto=format&fit=crop&q=80" // NEW RELIABLE HERO IMAGE
+              src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?w=1920&auto=format&fit=crop&q=80"
               alt="Modern business multi-service background"
               fill
               className="object-cover brightness-[0.35]"
@@ -395,7 +399,8 @@ export default function Home() {
 
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {services.map((service) => {
-               const IconComponent = serviceIcons[service.id as ServiceId];
+                const key = service.id as ServiceId;
+                const IconComponent = serviceIcons[key];
                 return (
                   <div
                     key={service.id}
@@ -469,7 +474,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ─── CONTACT PREVIEW ───────────────────────────────────────────── */}
+        {/* ─── CONTACT ───────────────────────────────────────────────────── */}
         <section id="contact" className="py-24 lg:py-32 bg-slate-50">
           <div className="max-w-7xl mx-auto px-6 lg:px-8">
             <div className="text-center mb-16">
@@ -531,7 +536,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ─── FOOTER (clean original style, services one-word) ────────────── */}
+        {/* ─── FOOTER ────────────── */}
         <footer className="bg-slate-900 pt-16 pb-8">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid md:grid-cols-4 gap-12 pb-12 border-b border-slate-800">
@@ -580,7 +585,7 @@ export default function Home() {
                 </ul>
               </div>
 
-              {/* Services - one-word titles */}
+              {/* Services */}
               <div>
                 <h4 className="text-white font-semibold mb-4">Our Services</h4>
                 <ul className="space-y-3">
